@@ -10,7 +10,6 @@ import 'package:gitview/presentation/pages/repository_details_page.dart';
 import 'package:gitview/presentation/widgets/loading_widget.dart';
 import 'package:gitview/presentation/widgets/repository_grid_item.dart';
 import 'package:gitview/presentation/widgets/repository_list_item.dart';
-import 'package:intl/intl.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -88,7 +87,7 @@ class HomePage extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 4,
               offset: const Offset(0, 2),
             ),
