@@ -7,6 +7,9 @@ import 'package:gitview/domain/repositories/github_repository.dart';
 import 'package:gitview/domain/usecases/get_repository_details_usecase.dart';
 import 'package:gitview/domain/usecases/get_user_repositories_usecase.dart';
 import 'package:gitview/domain/usecases/get_user_usecase.dart';
+import 'package:gitview/presentation/controllers/home_controller.dart';
+import 'package:gitview/presentation/controllers/repository_details_controller.dart';
+import 'package:gitview/presentation/controllers/user_input_controller.dart';
 
 class DependencyInjection {
   static void init() {
@@ -29,11 +32,11 @@ class DependencyInjection {
     );
 
     // Controllers
-    // Get.lazyPut(() => UserInputController(Get.find<GetUserUseCase>()));
-    // Get.lazyPut(() => HomeController(Get.find<GetUserRepositoriesUseCase>()));
-    // Get.lazyPut(
-    //   () =>
-    //       RepositoryDetailsController(Get.find<GetRepositoryDetailsUseCase>()),
-    // );
+    Get.lazyPut(() => UserInputController(Get.find<GetUserUseCase>()));
+    Get.lazyPut(() => HomeController(Get.find<GetUserRepositoriesUseCase>()));
+    Get.lazyPut(
+      () =>
+          RepositoryDetailsController(Get.find<GetRepositoryDetailsUseCase>()),
+    );
   }
 }
