@@ -1,9 +1,9 @@
-// lib/presentation/widgets/repository_list_item.dart
+// lib/presentation/widgets/repository_list_item.dart (updated)
 import 'package:flutter/material.dart';
 import 'package:gitview/core/utils/app_text.dart';
+import 'package:gitview/core/utils/date_formatter.dart';
 import 'package:gitview/core/utils/responsive.dart';
 import 'package:gitview/domain/entities/repository.dart';
-import 'package:intl/intl.dart';
 
 class RepositoryListItem extends StatelessWidget {
   final Repository repository;
@@ -103,7 +103,7 @@ class RepositoryListItem extends StatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    'Updated ${_formatDate(repository.updatedAt)}',
+                    'Updated ${DateFormatter.formatRelativeDate(repository.updatedAt)}',
                     style: context.appText.caption(),
                   ),
                 ],
@@ -113,27 +113,5 @@ class RepositoryListItem extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  String _formatDate(String dateString) {
-    try {
-      final date = DateTime.parse(dateString);
-      final now = DateTime.now();
-      final difference = now.difference(date);
-
-      if (difference.inDays > 30) {
-        return DateFormat('MMM dd').format(date);
-      } else if (difference.inDays > 0) {
-        return '${difference.inDays}d ago';
-      } else if (difference.inHours > 0) {
-        return '${difference.inHours}h ago';
-      } else if (difference.inMinutes > 0) {
-        return '${difference.inMinutes}m ago';
-      } else {
-        return 'just now';
-      }
-    } catch (e) {
-      return dateString;
-    }
   }
 }

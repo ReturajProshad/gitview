@@ -2,11 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gitview/core/utils/app_text.dart';
+import 'package:gitview/core/utils/date_formatter.dart';
 import 'package:gitview/core/utils/responsive.dart';
 import 'package:gitview/presentation/controllers/repository_details_controller.dart';
 import 'package:gitview/presentation/controllers/theme_controller.dart';
 import 'package:gitview/presentation/widgets/loading_widget.dart';
-import 'package:intl/intl.dart';
 
 class RepositoryDetailsPage extends StatelessWidget {
   const RepositoryDetailsPage({super.key});
@@ -150,14 +150,18 @@ class RepositoryDetailsPage extends StatelessWidget {
             _buildInfoRow(
               context,
               'Created',
-              _formatDate(repository.createdAt),
+              DateFormatter.formatDate(repository.createdAt),
             ),
             _buildInfoRow(
               context,
               'Updated',
-              _formatDate(repository.updatedAt),
+              DateFormatter.formatDate(repository.updatedAt),
             ),
-            _buildInfoRow(context, 'Pushed', _formatDate(repository.pushedAt)),
+            _buildInfoRow(
+              context,
+              'Pushed',
+              DateFormatter.formatDate(repository.pushedAt),
+            ),
           ]),
           24.vs(context),
           SizedBox(
@@ -214,14 +218,5 @@ class RepositoryDetailsPage extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  String _formatDate(String dateString) {
-    try {
-      final date = DateTime.parse(dateString);
-      return DateFormat('MMM dd, yyyy').format(date);
-    } catch (e) {
-      return dateString;
-    }
   }
 }
