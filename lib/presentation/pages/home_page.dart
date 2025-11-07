@@ -212,6 +212,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  // In _buildListView method:
   Widget _buildListView(BuildContext context, List<Repository> repositories) {
     final controller = Get.find<HomeController>();
     return ListView.builder(
@@ -234,6 +235,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  // In _buildGridView method:
   Widget _buildGridView(BuildContext context, List<Repository> repositories) {
     final controller = Get.find<HomeController>();
     return Padding(

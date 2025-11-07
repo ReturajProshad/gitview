@@ -1,20 +1,50 @@
-// lib/presentation/pages/repository_details_page.dart
+// lib/presentation/pages/repository_details_page.dart (alternative approach)
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:gitview/core/utils/app_text.dart';
 import 'package:gitview/core/utils/date_formatter.dart';
 import 'package:gitview/core/utils/responsive.dart';
+import 'package:gitview/domain/entities/repository.dart';
+import 'package:gitview/domain/entities/user.dart';
+import 'package:gitview/domain/usecases/get_repository_details_usecase.dart';
 import 'package:gitview/presentation/controllers/repository_details_controller.dart';
 import 'package:gitview/presentation/controllers/theme_controller.dart';
 import 'package:gitview/presentation/widgets/loading_widget.dart';
 
-class RepositoryDetailsPage extends StatelessWidget {
+class RepositoryDetailsPage extends StatefulWidget {
   const RepositoryDetailsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final controller = Get.find<RepositoryDetailsController>();
+  State<RepositoryDetailsPage> createState() => _RepositoryDetailsPageState();
+}
 
+class _RepositoryDetailsPageState extends State<RepositoryDetailsPage> {
+  late RepositoryDetailsController controller;
+  late User user;
+  late Repository repository;
+  // Get arguments first
+  final args = Get.arguments as Map<String, dynamic>?;
+
+  @override
+  void initState() {
+    user = args?['user'] as User;
+    repository = args?['repository'] as Repository;
+    controller = Get.put(
+      RepositoryDetailsController(GetRepositoryDetailsUseCase(Get.find())),
+      tag: '${user.login}/${repository.name}',
+    );
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Repository Details'),
@@ -27,29 +57,43 @@ class RepositoryDetailsPage extends StatelessWidget {
           ),
         ],
       ),
-      body: Obx(() {
-        if (controller.isLoading.value) {
-          return const LoadingWidget();
-        } else if (controller.errorMessage.value.isNotEmpty) {
-          return Center(
-            child: Text(
-              controller.errorMessage.value,
-              style: context.appText.bodyMedium(color: Colors.red),
-              textAlign: TextAlign.center,
-            ),
-          );
-        } else if (controller.repository.value == null) {
-          return Center(
-            child: Text(
-              'Repository details not available',
-              style: context.appText.bodyMedium(),
-            ),
-          );
-        } else {
-          return _buildRepositoryDetails(context, controller);
-        }
-      }),
+      body: _buildBody(context, controller, user, repository),
     );
+  }
+
+  Widget _buildBody(
+    BuildContext context,
+    RepositoryDetailsController controller,
+    User user,
+    Repository repository,
+  ) {
+    // Only fetch details if not already loading and repository is not set
+    if (!controller.isLoading.value && controller.repository.value == null) {
+      controller.fetchRepositoryDetails(user.login, repository.name);
+    }
+
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return const LoadingWidget();
+      } else if (controller.errorMessage.value.isNotEmpty) {
+        return Center(
+          child: Text(
+            controller.errorMessage.value,
+            style: context.appText.bodyMedium(color: Colors.red),
+            textAlign: TextAlign.center,
+          ),
+        );
+      } else if (controller.repository.value == null) {
+        return Center(
+          child: Text(
+            'Repository details not available',
+            style: context.appText.bodyMedium(),
+          ),
+        );
+      } else {
+        return _buildRepositoryDetails(context, controller);
+      }
+    });
   }
 
   Widget _buildRepositoryDetails(
