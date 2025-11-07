@@ -7,7 +7,7 @@ import 'package:gitview/domain/entities/repository.dart';
 import 'package:gitview/domain/usecases/get_user_repositories_usecase.dart';
 import 'package:gitview/presentation/controllers/home_controller.dart';
 import 'package:gitview/presentation/controllers/theme_controller.dart';
-import 'package:gitview/presentation/model/repository_details_args.dart';
+import 'package:gitview/presentation/models/repository_details_args.dart';
 import 'package:gitview/presentation/pages/repository_details_page.dart';
 import 'package:gitview/presentation/widgets/loading_widget.dart';
 import 'package:gitview/presentation/widgets/repository_grid_item.dart';

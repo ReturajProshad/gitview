@@ -5,7 +5,7 @@ import 'package:gitview/core/errors/failures.dart';
 import 'package:gitview/domain/entities/repository.dart';
 import 'package:gitview/domain/entities/user.dart';
 import 'package:gitview/domain/usecases/get_repository_details_usecase.dart';
-import 'package:gitview/presentation/model/repository_details_args.dart';
+import 'package:gitview/presentation/models/repository_details_args.dart';
 
 class RepositoryDetailsController extends GetxController {
   final GetRepositoryDetailsUseCase _getRepositoryDetailsUseCase;

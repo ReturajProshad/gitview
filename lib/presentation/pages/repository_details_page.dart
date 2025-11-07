@@ -9,7 +9,7 @@ import 'package:gitview/domain/entities/user.dart';
 import 'package:gitview/domain/usecases/get_repository_details_usecase.dart';
 import 'package:gitview/presentation/controllers/repository_details_controller.dart';
 import 'package:gitview/presentation/controllers/theme_controller.dart';
-import 'package:gitview/presentation/model/repository_details_args.dart';
+import 'package:gitview/presentation/models/repository_details_args.dart';
 import 'package:gitview/presentation/widgets/loading_widget.dart';
 
 class RepositoryDetailsPage extends StatefulWidget {
