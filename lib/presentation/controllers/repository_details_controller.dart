@@ -5,6 +5,7 @@ import 'package:gitview/core/errors/failures.dart';
 import 'package:gitview/domain/entities/repository.dart';
 import 'package:gitview/domain/entities/user.dart';
 import 'package:gitview/domain/usecases/get_repository_details_usecase.dart';
+import 'package:gitview/presentation/model/repository_details_args.dart';
 
 class RepositoryDetailsController extends GetxController {
   final GetRepositoryDetailsUseCase _getRepositoryDetailsUseCase;
@@ -21,9 +22,9 @@ class RepositoryDetailsController extends GetxController {
     super.onInit();
     // Get arguments
     if (Get.arguments != null) {
-      final args = Get.arguments as Map<String, dynamic>;
-      user.value = args['user'] as User;
-      final repo = args['repository'] as Repository;
+      final args = Get.arguments as RepositoryDetailsArgs;
+      user.value = args.user;
+      final repo = args.repository;
 
       // Fetch detailed repository information
       fetchRepositoryDetails(user.value!.login, repo.name);

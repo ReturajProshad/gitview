@@ -6,6 +6,7 @@ import 'package:gitview/core/utils/responsive.dart';
 import 'package:gitview/domain/entities/repository.dart';
 import 'package:gitview/presentation/controllers/home_controller.dart';
 import 'package:gitview/presentation/controllers/theme_controller.dart';
+import 'package:gitview/presentation/model/repository_details_args.dart';
 import 'package:gitview/presentation/pages/repository_details_page.dart';
 import 'package:gitview/presentation/widgets/loading_widget.dart';
 import 'package:gitview/presentation/widgets/repository_grid_item.dart';
@@ -13,6 +14,16 @@ import 'package:gitview/presentation/widgets/repository_list_item.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
+
+  Future<void>? gotoRepoPage(HomeController controller, Repository repository) {
+    return Get.to(
+      () => const RepositoryDetailsPage(),
+      arguments: RepositoryDetailsArgs(
+        user: controller.user.value!,
+        repository: repository,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -222,14 +233,7 @@ class HomePage extends StatelessWidget {
         final repository = repositories[index];
         return RepositoryListItem(
           repository: repository,
-          onTap:
-              () => Get.to(
-                () => const RepositoryDetailsPage(),
-                arguments: {
-                  'user': controller.user.value,
-                  'repository': repository,
-                },
-              ),
+          onTap: () => gotoRepoPage(controller, repository),
         );
       },
     );
@@ -252,14 +256,7 @@ class HomePage extends StatelessWidget {
           final repository = repositories[index];
           return RepositoryGridItem(
             repository: repository,
-            onTap:
-                () => Get.to(
-                  () => const RepositoryDetailsPage(),
-                  arguments: {
-                    'user': controller.user.value,
-                    'repository': repository,
-                  },
-                ),
+            onTap: () => gotoRepoPage(controller, repository),
           );
         },
       ),

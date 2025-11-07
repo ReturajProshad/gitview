@@ -9,6 +9,7 @@ import 'package:gitview/domain/entities/user.dart';
 import 'package:gitview/domain/usecases/get_repository_details_usecase.dart';
 import 'package:gitview/presentation/controllers/repository_details_controller.dart';
 import 'package:gitview/presentation/controllers/theme_controller.dart';
+import 'package:gitview/presentation/model/repository_details_args.dart';
 import 'package:gitview/presentation/widgets/loading_widget.dart';
 
 class RepositoryDetailsPage extends StatefulWidget {
@@ -20,15 +21,15 @@ class RepositoryDetailsPage extends StatefulWidget {
 
 class _RepositoryDetailsPageState extends State<RepositoryDetailsPage> {
   late RepositoryDetailsController controller;
-  late User user;
-  late Repository repository;
+  late final User user;
+  late final Repository repository;
   // Get arguments first
-  final args = Get.arguments as Map<String, dynamic>?;
+  final args = Get.arguments as RepositoryDetailsArgs;
 
   @override
   void initState() {
-    user = args?['user'] as User;
-    repository = args?['repository'] as Repository;
+    user = args.user;
+    repository = args.repository;
     controller = Get.put(
       RepositoryDetailsController(GetRepositoryDetailsUseCase(Get.find())),
       tag: '${user.login}/${repository.name}',
