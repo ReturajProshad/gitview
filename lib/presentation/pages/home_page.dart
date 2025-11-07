@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:gitview/core/utils/app_text.dart';
 import 'package:gitview/core/utils/responsive.dart';
 import 'package:gitview/domain/entities/repository.dart';
+import 'package:gitview/domain/usecases/get_user_repositories_usecase.dart';
 import 'package:gitview/presentation/controllers/home_controller.dart';
 import 'package:gitview/presentation/controllers/theme_controller.dart';
 import 'package:gitview/presentation/model/repository_details_args.dart';
@@ -12,8 +13,24 @@ import 'package:gitview/presentation/widgets/loading_widget.dart';
 import 'package:gitview/presentation/widgets/repository_grid_item.dart';
 import 'package:gitview/presentation/widgets/repository_list_item.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  late HomeController controller;
+
+  @override
+  void initState() {
+    controller = Get.put(
+      HomeController(GetUserRepositoriesUseCase(Get.find())),
+    );
+
+    super.initState();
+  }
 
   Future<void>? gotoRepoPage(HomeController controller, Repository repository) {
     return Get.to(
@@ -27,8 +44,6 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<HomeController>();
-
     return Scaffold(
       appBar: AppBar(
         title: Obx(() => Text(controller.user.value?.login ?? 'Repositories')),
@@ -245,12 +260,7 @@ class HomePage extends StatelessWidget {
     return Padding(
       padding: context.responsive.allPadding(16),
       child: GridView.builder(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: 16,
-          mainAxisSpacing: 16,
-          childAspectRatio: 0.7,
-        ),
+        gridDelegate: context.responsive.sliverFixedGrid(),
         itemCount: repositories.length,
         itemBuilder: (context, index) {
           final repository = repositories[index];

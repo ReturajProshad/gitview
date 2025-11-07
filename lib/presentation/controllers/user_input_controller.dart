@@ -15,6 +15,18 @@ class UserInputController extends GetxController {
   final user = Rxn<User>();
   final errorMessage = ''.obs;
 
+  @override
+  void onClose() {
+    dispose();
+    super.onClose();
+  }
+
+  @override
+  void dispose() {
+    usernameController.dispose();
+    super.dispose();
+  }
+
   Future<void> fetchUser() async {
     if (usernameController.text.trim().isEmpty) {
       errorMessage.value = 'Please enter a username';

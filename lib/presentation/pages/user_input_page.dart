@@ -41,7 +41,10 @@ class UserInputPage extends StatelessWidget {
                   hintText: 'Enter GitHub username',
                   prefixIcon: Icon(Icons.person),
                 ),
-                onSubmitted: (_) => controller.fetchUser(),
+                onSubmitted: (_) {
+                  controller.fetchUser();
+                  controller.usernameController.clear();
+                },
               ),
               20.vs(context),
               Obx(

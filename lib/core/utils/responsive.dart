@@ -95,4 +95,30 @@ class Responsive {
       return value * (width / 1024);
     }
   }
+
+  // ------------------- New Method -------------------
+  SliverGridDelegateWithFixedCrossAxisCount sliverFixedGrid({
+    double spacing = 16,
+  }) {
+    int crossAxisCount;
+    double childAspectRatio;
+
+    if (width <= 600) {
+      crossAxisCount = 2;
+      childAspectRatio = 0.9;
+    } else if (width <= 1200) {
+      crossAxisCount = 3;
+      childAspectRatio = 0.75; //not tested
+    } else {
+      crossAxisCount = 4;
+      childAspectRatio = 0.8; //not tested
+    }
+
+    return SliverGridDelegateWithFixedCrossAxisCount(
+      crossAxisCount: crossAxisCount,
+      crossAxisSpacing: scaleWidth(spacing),
+      mainAxisSpacing: scaleHeight(spacing),
+      childAspectRatio: childAspectRatio,
+    );
+  }
 }
